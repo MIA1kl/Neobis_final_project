@@ -25,7 +25,6 @@ class RegistrationView(generics.GenericAPIView):
 
 
 
-
 class OTPVerificationView(generics.GenericAPIView):
     serializer_class = OTPVerificationSerializer
 
