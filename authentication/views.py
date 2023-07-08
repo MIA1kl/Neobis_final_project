@@ -48,7 +48,7 @@ class SignInView(generics.GenericAPIView):
                 send_sms(phone_number, otp)
                 user.otp = otp
                 user.save()
-                return Response({'detail': 'Please enter the OTP received via SMS.'})
+                return Response({'detail': 'Please enter the OTP received via SMS. '+ otp})
             return Response({'detail': 'Invalid phone number or user not registered.'}, status=status.HTTP_400_BAD_REQUEST)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
