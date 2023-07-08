@@ -4,8 +4,8 @@ from .views import (
 )
 
 urlpatterns = [
-    path('register/', RegistrationView.as_view(), name='register'),
-    path('otp-verify/', OTPVerificationView.as_view(), name='otp-verify'),
-    path('sign-in/', SignInView.as_view(), name='sign-in'),
-    path('sign-in-otp-verify/', SignInOTPVerificationView.as_view(), name='sign-in-otp-verify'),
+    path('register/phone', RegistrationView.as_view(), name='register'),
+    path('register/verify', OTPVerificationView.as_view(), name='otp-verify'),
+    path('login/phone', SignInView.as_view(), name='sign-in'),
+    path('login/verify', SignInOTPVerificationView.as_view(), name='sign-in-otp-verify'),
 ]

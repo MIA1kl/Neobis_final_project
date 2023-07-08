@@ -16,7 +16,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
         return user
 
 class OTPVerificationSerializer(serializers.Serializer):
-    code = serializers.CharField(min_length=4, max_length=4)
+    verification_code = serializers.CharField(min_length=4, max_length=4)
 
 class SignInSerializer(serializers.Serializer):
     phone_number = serializers.CharField(max_length=20)
