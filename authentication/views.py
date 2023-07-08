@@ -35,6 +35,7 @@ class OTPVerificationView(generics.GenericAPIView):
             user = User.objects.filter(verification_code=entered_code).first()
             if user:
                 user.is_active = True
+                user.registration_completed=True
                 user.save()
                 return Response({'detail': 'Registration successful.'})
             return Response({'detail': 'Invalid OTP.'}, status=status.HTTP_400_BAD_REQUEST)
