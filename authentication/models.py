@@ -9,8 +9,9 @@ class User(AbstractUser):
     date_of_birth = models.DateField()
     verification_code = models.CharField(max_length=4, blank=True)
     phone_number = models.CharField(max_length=20, unique=True)
+    registration_completed = models.BooleanField(default=False)
     
-    USERNAME_FIELD='phone_number'
+    USERNAME_FIELD = 'phone_number'
 
     def __str__(self):
         return self.phone_number

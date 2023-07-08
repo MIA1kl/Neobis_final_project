@@ -15,11 +15,14 @@ class RegistrationView(generics.GenericAPIView):
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
             phone_number = serializer.validated_data['phone_number']
+            if User.objects.filter(phone_number=phone_number, registration_completed=False).exists():
+                return Response({'detail': 'Verification code request already sent.'})
             verification_code = get_random_string(length=4, allowed_chars='0123456789')
             send_sms(phone_number, verification_code)
             user = User.objects.create(verification_code=verification_code, **serializer.validated_data)
-            return Response({'detail': 'Please enter the OTP received via SMS. '+verification_code})
+            return Response({'detail': 'Please enter the OTP received via SMS. ' + verification_code})
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 
@@ -85,3 +88,6 @@ def send_sms(phone_number, verification_code):
     #     to=phone_number
     # )
     print(f"The code is: {verification_code}")  # Replace this with actual SMS sending code
+    
+    
+
