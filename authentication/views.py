@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from .serializers import RegistrationSerializer, OTPVerificationSerializer, SignInSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.response import Response
+import threading
 
 User = get_user_model()
 
@@ -20,8 +21,13 @@ class RegistrationView(generics.GenericAPIView):
             verification_code = get_random_string(length=4, allowed_chars='0123456789')
             send_sms(phone_number, verification_code)
             user = User.objects.create(verification_code=verification_code, **serializer.validated_data)
+            timer = threading.Timer(120, self.delete_user, args=[user.id])
+            timer.start()
             return Response({'detail': 'Please enter the OTP received via SMS. ' + verification_code})
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def delete_user(self, user_id):
+        User.objects.filter(id=user_id, registration_completed=False).delete()
 
 
 
@@ -78,7 +84,6 @@ class SignInOTPVerificationView(generics.GenericAPIView):
 
 
 def send_sms(phone_number, verification_code):
-    # Use Twilio or any other SMS service provider to send the SMS
     # account_sid = 'your_account_sid'
     # auth_token = 'your_auth_token'
     # client = Client(account_sid, auth_token)
@@ -87,7 +92,7 @@ def send_sms(phone_number, verification_code):
     #     from_='your_twilio_phone_number',
     #     to=phone_number
     # )
-    print(f"The code is: {verification_code}")  # Replace this with actual SMS sending code
+    print(f"The code is: {verification_code}")  
     
     
 
