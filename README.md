@@ -7,7 +7,6 @@ This repository contains the final project for the Neobis club.
 - [Introduction](#introduction)
 - [Installation](#installation)
   - [Docker Compose Setup](#docker-compose-setup)
-  - [Nginx Configuration](#nginx-configuration)
 
 
 ## Introduction
